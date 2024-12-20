@@ -13,19 +13,29 @@ const app = express()
 
 app.use(express.json())
 
-app.use(cors())
+app.use(cors({
+	origin: (origin, callback) => {
+	  if (origin === 'https://code-sync-fxwq.vercel.app') {
+		callback(null, true);  // Allow this origin
+	  } else {
+		callback(new Error('Not allowed by CORS'));  // Reject other origins
+	  }
+	},
+	credentials: true,  // Allow credentials (cookies, HTTP authentication)
+  }));
+  
 
 app.use(express.static(path.join(__dirname, "public"))) // Serve static files
 
 const server = http.createServer(app)
 const io = new Server(server, {
 	cors: {
-		origin: "https://code-sync-fxwq.vercel.app/",
+	  origin: 'https://code-sync-fxwq.vercel.app',  // Allow this specific origin
+	  methods: ['GET', 'POST'],
+	  credentials: true,  // Allow credentials
 	},
-	maxHttpBufferSize: 1e8,
-	pingTimeout: 60000,
-})
-
+  });
+  
 let userSocketMap: User[] = []
 
 // Function to get all users in a room
