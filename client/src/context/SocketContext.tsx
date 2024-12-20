@@ -27,7 +27,7 @@ export const useSocket = (): SocketContextType => {
     return context
 }
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://code-sync-jet-phi.vercel.app/"
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://code-sync-mu-pearl.vercel.app/"
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
     const {
